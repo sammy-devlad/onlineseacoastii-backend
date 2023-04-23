@@ -25,6 +25,7 @@ from rest_framework.decorators import (
     authentication_classes,
     permission_classes,
 )
+from django.http import HttpResponseRedirect
 
 from django.core.cache import cache
 from account.models import Account
@@ -34,11 +35,7 @@ from baseapp import utils
 
 
 def home(request):
-    data = cache.get("taspizorta@vusra.com")
-    uid = urlsafe_base64_encode(force_bytes("taspizorta@vusra.com"))
-    uid2 = force_str(urlsafe_base64_decode(uid))
-    print(uid, uid2)
-    return JsonResponse({"memp homesg": data})
+    return HttpResponseRedirect("https://app.onlineseacoastacct.com/")
 
 
 class SignUpView(APIView):
