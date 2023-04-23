@@ -1,0 +1,77 @@
+{% extends 'superuser/layout.html' %}<!---->
+
+{% block title %} Transactions {% endblock title %}<!---->
+{% block style %}
+<style></style>
+{% endblock style %} {% block content %}
+
+<!--[container-fluid]-->
+<div class="container-fluid" id="container-wrapper">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Transactions</h1>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Transactions</li>
+    </ol>
+  </div>
+
+  <div class="row justify-content-center mb-3">
+    {% for obj in transactions %}
+    <div class="col-lg-8 mb-2">
+      <a
+        class="card h-100"
+        href="{% url 'admin-transactions_details' pk=obj.id %}"
+        ><div class="card-body">
+          <div class="row align-items-center">
+            <div class="col mr-2 text-truncate">
+              <div
+                class="h5 mb-0 font-weight-bold text-capitalize text-gray-800 text-truncate"
+              >
+                {{obj.sender.get_fullname}} =&gt; {% if obj.receiver %}
+                {{obj.receiver.get_fullname}} {% else %}
+                {{obj.interDetail.first_name}} {{obj.interDetail.last_name}}
+                <!---->
+                {% endif %}
+              </div>
+              <div class="mt-2 mb-0 text-muted text-xs text-truncate">
+                <span
+                  class="{% if obj.status == 'PENDING' %} text-warning {% elif obj.status == 'SUCCESS' %}text-success {% else %} text-danger {% endif %}mr-2"
+                  ><i class="fa"></i>${{obj.format_balance}}</span
+                >
+
+                <span>{{obj.date}} </span>
+              </div>
+            </div>
+            <div class="col-auto">
+              <img
+                class="img-profile rounded-circle"
+                src="https://ui-avatars.com/api/?name={{obj.status}}"
+                style="max-width: 42px; height: 42px"
+              />
+            </div>
+          </div></div
+      ></a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<!--[container-fluid ends]-->
+
+<!-- Footer -->
+<footer class="sticky-footer bg-white">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span
+        >copyright &copy;
+        <script>
+          document.write(new Date().getFullYear());
+        </script>
+        - developed by
+        <b><a href="#" target="_blank">Sammy</a></b>
+      </span>
+    </div>
+  </div>
+</footer>
+<!-- Footer -->
+
+{% endblock content %}

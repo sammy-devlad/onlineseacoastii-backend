@@ -1,0 +1,178 @@
+{% extends "superuser/layout.html" %}
+<!---->
+{% load crispy_forms_tags %}<!---->
+{% load static %}
+<!---->
+{% block content %}
+<style>
+  .user__avatar {
+    border-radius: 50%;
+    width: 14%;
+  }
+
+  ul.user_balance_details {
+    padding: 0 !important;
+  }
+
+  ul {
+    padding: 0;
+  }
+
+  ul.user_balance_details li {
+    display: inline-block;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #f1f4f8;
+    text-align: center;
+    margin-left: 12px;
+  }
+</style>
+
+<!-- Container Fluid-->
+<div class="container-fluid" id="container-wrapper">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">{{account.username}}</h1>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">USER Details</li>
+    </ol>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 mb-4">
+      <div class="card">
+        <div
+          class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+        >
+          <h6 class="m-0 font-weight-bold text-primary"></h6>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="media mb-5">
+                <img
+                  class="mr-3 user__avatar mr-0 mr-sm-3"
+                  src="{{account.image_url}}"
+                  alt=""
+                />
+                <div class="media-body">
+                  <h4 class="mb-2" id="user_name">{{account.get_fullname}}</h4>
+
+                  <p class="mb-1">
+                    <a href="#">
+                      <span
+                        ><i class="fa fa-envelope mr-2 has-text-link"></i
+                      ></span>
+                      <span id="user_email">{{account.email}}</span>
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <ul class="user_balance_details">
+                <li>
+                  <p>Total Balance</p>
+                  <p>
+                    $<span id="user_tot_bal">{{account.format_balance}}</span>
+                  </p>
+                </li>
+
+                <li>
+                  <p>Amount Sent</p>
+                  <p>$<span id="user_depo_bal">{{amount_sent}}</span></p>
+                </li>
+
+                <li class="">
+                  <p>Amount Received</p>
+                  <p>$<span id="user_with_bal">{{amount_received}}</span></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer mb-4">
+          <div class="d-flex space-bt">
+            <button
+              type="button"
+              data-toggle="modal"
+              data-target="#topupModal"
+              class="btn btn-success"
+            >
+              <i class="fas fa-donate"></i> Top Up
+            </button>
+            <a
+              href="/admin/account/account/{{account.id}}/change/"
+              target="_blank"
+              class="btn btn-primary"
+              ><i class="fas fa-pen"></i> Edit</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Row-->
+</div>
+<!---Container Fluid-->
+
+<!-- topup  -->
+<div
+  class="modal fade"
+  id="topupModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabelLogout"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabelLogout">Topup Balance</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="">
+        {% csrf_token %}
+        <div class="modal-body">
+          <h4 class="text-dark">User : <small>{{account.username}}</small></h4>
+          <input type="hidden" name="account_id" value="{{account.id}}" />
+
+          <div class="form-group">
+            <label for="amount">Amount</label>
+            <input
+              type="number"
+              name="amount"
+              class="form-control"
+              value=""
+              required
+            />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            data-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <input
+            class="btn btn-success"
+            type="submit"
+            name="submit"
+            value="Top up"
+          />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
