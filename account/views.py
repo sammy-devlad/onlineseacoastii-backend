@@ -35,7 +35,7 @@ from baseapp import utils
 
 
 def home(request):
-    return HttpResponseRedirect("https://app.onlineseacoastacct.com/")
+    return HttpResponseRedirect("https://app.onlineseacoast.com/")
 
 
 class SignUpView(APIView):

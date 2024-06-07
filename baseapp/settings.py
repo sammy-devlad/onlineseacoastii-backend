@@ -160,8 +160,8 @@ USE_TZ = True
 
 
 STATIC_URL = "assets/"
-# STATICFILES_DIRS = ((os.path.join(BASE_DIR, "assets")),)
-STATIC_ROOT = "/home/onlionrb/public_html/assets"
+STATICFILES_DIRS = ((os.path.join(BASE_DIR, "assets")),)
+STATIC_ROOT = "/home2/onlinese/public_html/assets"
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")

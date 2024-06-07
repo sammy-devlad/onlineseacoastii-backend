@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from baseapp import utils
 
 
 class Account(AbstractUser):
@@ -25,11 +26,11 @@ class Account(AbstractUser):
     profile_image = models.ImageField(upload_to="profile/", blank=True, null=True)
 
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email"]
+    REQUIRED_FIELDS = ["email","security_pin"]
 
     def image_url(self):
         if self.profile_image:
-            return f"https://onlineseacoastacct.com{self.profile_image.url}"
+            return f"https://onlineseacoast.com{self.profile_image.url}"
         else:
             return (
                 f"https://ui-avatars.com/api/?name={self.first_name} {self.last_name}"
@@ -44,9 +45,10 @@ class Account(AbstractUser):
     def __str__(self):
         return self.email
 
-    # def save(self, *args, **kwargs):
-    #     # Perform custom logic before saving
-    #     self.username = utils.gen_random_number()
+    def save(self, *args, **kwargs):
+         # Perform custom logic before saving
+         if self.username == None or self.username == "":
+             self.username = utils.gen_random_number()
 
-    #     # Call parent save method
-    #     super().save(*args, **kwargs)
+         # Call parent save method
+         super().save(*args, **kwargs)
